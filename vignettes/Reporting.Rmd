@@ -1,0 +1,67 @@
+---
+title: "Reporting"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Reporting}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(ds_reporting)
+library(farff)
+df <- readARFF(
+  path = system.file(
+    "extdata", "dataset_42_soybean.arff", package = "ds_reporting"
+  )
+)
+```
+
+# Describe dataset
+
+```{r}
+describe_df(df)
+```
+
+# Oneway table
+
+```{r}
+ow_report(
+    data = df,
+    workbook = "Oneway",
+    worksheet = "Oneway",
+    vars = c("date", "plant-stand", "precip"),
+    rounding = 2,
+    total = FALSE,
+    filename = "Oneway example.xlsx"
+)
+```
+
+# Twoway table
+
+```{r}
+tw_report(
+    data = df %>% drop_na(`plant-stand`),
+    workbook = "Twoway",
+    worksheet = "Twoway",
+    colvar = "plant-stand",
+    rowvars = c("precip", "date", "germination", "severity"),
+    rounding = 2,
+    percentage_style = "row",
+    counts = FALSE,
+    separate_counts = FALSE,
+    total_col = TRUE,
+    pval_col = FALSE,
+    chi_cat_reject = TRUE,
+    chi_cat_reject_threshold = 0.06,
+    show_chi_table = TRUE,
+    filename = "Twoway example.xlsx"
+)
+```
