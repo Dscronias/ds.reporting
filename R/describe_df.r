@@ -29,9 +29,11 @@ describe_df <- function(data) {
             ) %>%
             t() %>%
             as.vector(),
-        nlevels = df %>% summarise_if(
-            is.factor,
-            ~levels(.) %>% length()
+        nlevels = df %>% summarise(
+            across(
+                everything(),
+                ~levels(.) %>% length()
+            )
         ) %>%
         t() %>%
         as.vector(),
