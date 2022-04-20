@@ -35,10 +35,11 @@ describe_df <- function(data) {
         ) %>%
         t() %>%
         as.vector(),
-        levels = df %>% summarise_if(
-            #? Does not work properly using across
-            is.factor,
-            ~levels(.) %>% paste(., collapse = "; ")
+        levels = df %>% summarise(
+            across(
+                everything(),
+                ~levels(.) %>% paste(collapse = "; ")
+            )
         ) %>%
         t() %>%
         as.vector()
