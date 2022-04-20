@@ -9,9 +9,9 @@
 
 describe_df <- function(data) {
     bind_cols(
-        variable = df %>% colnames(),
-        class = df %>% map_chr(~ class(.) %>% paste(collapse = "; ")),
-        count = df %>%
+        variable = data %>% colnames(),
+        class = data %>% map_chr(~ class(.) %>% paste(collapse = "; ")),
+        count = data %>%
             summarise(
                 across(
                     everything(),
@@ -20,7 +20,7 @@ describe_df <- function(data) {
             ) %>%
             t() %>%
             as.vector(),
-        missing = df %>%
+        missing = data %>%
             summarise(
                 across(
                     everything(),
@@ -29,7 +29,7 @@ describe_df <- function(data) {
             ) %>%
             t() %>%
             as.vector(),
-        nlevels = df %>% summarise(
+        nlevels = data %>% summarise(
             across(
                 everything(),
                 ~levels(.) %>% length()
@@ -37,7 +37,7 @@ describe_df <- function(data) {
         ) %>%
         t() %>%
         as.vector(),
-        levels = df %>% summarise(
+        levels = data %>% summarise(
             across(
                 everything(),
                 ~levels(.) %>% paste(collapse = "; ")
@@ -45,5 +45,9 @@ describe_df <- function(data) {
         ) %>%
         t() %>%
         as.vector()
+    ) %>%
+    mutate(
+        count = glue('{count} ({round(count/nrow(df)*100, 2)}%)'),
+        missing = glue('{missing} ({round(missing/nrow(df)*100, 2)}%)')
     )
 }
