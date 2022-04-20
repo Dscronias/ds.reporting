@@ -15,11 +15,14 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(ds_reporting)
 library(farff)
+library(tidyverse)
+library(openxlsx)
+library(ds.reporting)
+library(janitor)
 df <- readARFF(
   path = system.file(
-    "extdata", "dataset_42_soybean.arff", package = "ds_reporting"
+    "extdata", "dataset_42_soybean.arff", package = "ds.reporting"
   )
 )
 ```

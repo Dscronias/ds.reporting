@@ -10,7 +10,7 @@
 describe_df <- function(data) {
     bind_cols(
         variable = df %>% colnames(),
-        class = df %>% sapply(class),
+        class = df %>% map(~ class(.) %>% paste(collapse = "; ")),
         count = df %>%
             summarise(
                 across(
