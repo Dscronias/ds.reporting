@@ -23,7 +23,7 @@ quant_report <- function(data, workbook, worksheet, vars, filename,
     )
 
     # TABLE
-    report <- data %>% cont_summary(vars)
+    report <- data %>% quant_summary(vars)
 
     # TO EXCEL
     ## TABLE
