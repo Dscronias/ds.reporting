@@ -22,26 +22,41 @@ tw_report(
   filename
 )
 }
+\arguments{
+\item{workbook}{name of the workbook (string)}
+
+\item{worksheet}{name of the worksheet (string)}
+
+\item{colvar}{name of column variable (string, max one)}
+
+\item{rowvars}{names of row variables (vector of strings)}
+
+\item{rounding}{number of digits for rounding}
+
+\item{percentage_style}{"row", "col" or "both" (= cell) percentages}
+
+\item{counts}{show counts in parenthesis}
+
+\item{separate_counts}{show counts in a new column}
+
+\item{total_col}{add a total column (bool)}
+
+\item{pval_col}{put the p-values in a new column instead of new rows (bool)}
+
+\item{chi_cat_reject}{Automatic drop of categories with low counts}
+
+\item{chi_cat_reject_threshold}{Threshold at which categories are dropped (default:  categories with n <= 30 are dropped). Use a value >= to 1 to drop based on counts (n), or < 1 to drop based on percentages (e.g. 0.01)}
+
+\item{show_chi_table}{Returns the table used to compute the chi-squared test}
+
+\item{filename}{Name of excel file to export to}
+
+\item{Data}{dataframe}
+}
+\value{
+Excel file with twoway table
+}
 \description{
 This functions creates an Excel workbook and exports a twoway table
 of one column variable and multiple row variables, with chi-squared tests.
-}
-\details{
-@param Data dataframe
-@param workbook name of the workbook (string)
-@param worksheet name of the worksheet (string)
-@param colvar name of column variable (string, max one)
-@param rowvars names of row variables (vector of strings)
-@param rounding number of digits for rounding
-@param percentage_style "row", "col" or "both" (= cell) percentages
-@param counts show counts in parenthesis
-@param separate_counts show counts in a new column
-@param total_col add a total column (bool)
-@param pval_col put the p-values in a new column instead of new rows (bool)
-@param chi_cat_reject Automatic drop of categories with low counts
-@param chi_cat_reject_threshold Threshold at which categories are dropped (default:  categories with n <= 30 are dropped). Use a value >= to 1 to drop based on counts (n), or < 1 to drop based on percentages (e.g. 0.01)
-@param show_chi_table Returns the table used to compute the chi-squared test
-@param filename Name of excel file to export to
-@return Excel file with twoway table
-@export
 }

@@ -20,6 +20,7 @@ library(tidyverse)
 library(openxlsx)
 library(ds.reporting)
 library(janitor)
+library(glue)
 df <- readARFF(
   path = system.file(
     "extdata", "dataset_42_soybean.arff", package = "ds.reporting"

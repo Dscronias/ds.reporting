@@ -3,23 +3,23 @@
 #' This functions creates an Excel workbook and exports a twoway table
 #' of one column variable and multiple row variables, with chi-squared tests.
 #'
-#'  @param Data dataframe
-#'  @param workbook name of the workbook (string)
-#'  @param worksheet name of the worksheet (string)
-#'  @param colvar name of column variable (string, max one)
-#'  @param rowvars names of row variables (vector of strings)
-#'  @param rounding number of digits for rounding
-#'  @param percentage_style "row", "col" or "both" (= cell) percentages
-#'  @param counts show counts in parenthesis
-#'  @param separate_counts show counts in a new column
-#'  @param total_col add a total column (bool)
-#'  @param pval_col put the p-values in a new column instead of new rows (bool)
-#'  @param chi_cat_reject Automatic drop of categories with low counts
-#'  @param chi_cat_reject_threshold Threshold at which categories are dropped (default:  categories with n <= 30 are dropped). Use a value >= to 1 to drop based on counts (n), or < 1 to drop based on percentages (e.g. 0.01)
-#'  @param show_chi_table Returns the table used to compute the chi-squared test
-#'  @param filename Name of excel file to export to
-#'  @return Excel file with twoway table
-#'  @export
+#' @param Data dataframe
+#' @param workbook name of the workbook (string)
+#' @param worksheet name of the worksheet (string)
+#' @param colvar name of column variable (string, max one)
+#' @param rowvars names of row variables (vector of strings)
+#' @param rounding number of digits for rounding
+#' @param percentage_style "row", "col" or "both" (= cell) percentages
+#' @param counts show counts in parenthesis
+#' @param separate_counts show counts in a new column
+#' @param total_col add a total column (bool)
+#' @param pval_col put the p-values in a new column instead of new rows (bool)
+#' @param chi_cat_reject Automatic drop of categories with low counts
+#' @param chi_cat_reject_threshold Threshold at which categories are dropped (default:  categories with n <= 30 are dropped). Use a value >= to 1 to drop based on counts (n), or < 1 to drop based on percentages (e.g. 0.01)
+#' @param show_chi_table Returns the table used to compute the chi-squared test
+#' @param filename Name of excel file to export to
+#' @return Excel file with twoway table
+#' @export
 
 tw_report <- function(data, workbook, worksheet, colvar, rowvars, rounding = 2,
     percentage_style = "row", counts = FALSE,
@@ -78,7 +78,7 @@ tw_report <- function(data, workbook, worksheet, colvar, rowvars, rounding = 2,
 
     ###########################################################################
 
-    
+
     ###########################################################################
     # HEADER
 
@@ -100,7 +100,7 @@ tw_report <- function(data, workbook, worksheet, colvar, rowvars, rounding = 2,
         header_legend <- rep(c("% (N)"), times = length(table_header)-1) %>%
             t()
     }
-    
+
     # P-value in a column
     if (pval_col) {
         table_header <- table_header %>%
@@ -157,19 +157,19 @@ tw_report <- function(data, workbook, worksheet, colvar, rowvars, rounding = 2,
     )
     ## Remove variable name in header
     writeData(wb = wb, sheet = worksheet, x = " ", startRow = row_counter)
-    
+
     ### Alternative header if N and % are separated
     if (counts & separate_counts) {
         alt_header_column = 2
         for (cat in colvar_categories) {
-            writeData(wb = wb, sheet = worksheet, x = cat, 
+            writeData(wb = wb, sheet = worksheet, x = cat,
                 startRow = row_counter, startCol = alt_header_column)
             mergeCells(wb, worksheet, cols = (alt_header_column:(alt_header_column+1)),
                 rows = row_counter)
             alt_header_column <- alt_header_column + 2
         }
         if (total_col) {
-            writeData(wb = wb, sheet = worksheet, x = "Total", 
+            writeData(wb = wb, sheet = worksheet, x = "Total",
                 startRow = row_counter, startCol = alt_header_column)
             mergeCells(wb, worksheet, cols = (alt_header_column:(alt_header_column+1)),
                 rows = row_counter)
@@ -216,7 +216,7 @@ tw_report <- function(data, workbook, worksheet, colvar, rowvars, rounding = 2,
                 left_join(table_col_total)
 
         }
-        
+
         # Separate counts & percentages
         if (counts & separate_counts) {
             for (var in colvar_categories) {
