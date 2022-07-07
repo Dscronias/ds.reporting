@@ -31,7 +31,7 @@ quant_summary <- function(data, columns) {
         ) %>%
         pivot_longer(
             cols = everything(),
-            names_sep = "_",
+            names_sep = "_(?!.*_)",
             names_to = c("Variable", ".value")
         ) %>%
         mutate(
