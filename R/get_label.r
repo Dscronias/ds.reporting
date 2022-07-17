@@ -16,6 +16,9 @@ put_label <- function(data, var, data_label, label_from, label_to) {
         filter({{label_from}} == englue("{{var}}")) %>% 
         pull({{label_to}})
 
+    # Check that var exists in data_label$label_from
+    assert_that(length(var_label) > 0, msg = glue("{englue('{{var}}')} does not exist in {englue('{{label_from}}')} (label_from) column"))
+
     data <- data %>%
         rename(
             !!sym(var_label) := {{var}}
