@@ -9,9 +9,11 @@ Description: "Export oneway and twoway tables from R to Excel, with
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
 Imports:
+    assertthat,
     glue,
     janitor,
     openxlsx,
+    rlang,
     tidyverse,
     srvyr
 Suggests: 
