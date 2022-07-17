@@ -12,7 +12,8 @@ Imports:
     glue,
     janitor,
     openxlsx,
-    tidyverse
+    tidyverse,
+    srvyr
 Suggests: 
     farff,
     knitr,
