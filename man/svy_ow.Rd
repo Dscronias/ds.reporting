@@ -7,6 +7,8 @@
 svy_ow(data, var, rounding = 2, hide_prct_char = TRUE, lang = "en")
 }
 \arguments{
+\item{data}{Dataframe to use}
+
 \item{var}{Variable to use}
 
 \item{rounding}{number of digits for rounding (int)}
@@ -14,13 +16,11 @@ svy_ow(data, var, rounding = 2, hide_prct_char = TRUE, lang = "en")
 \item{hide_prct_char}{hides the "\%" characted in the percentages column}
 
 \item{lang}{changes the name of the percentage column (depending on your language). Three values : "en" (default), "fr", or "math"}
-
-\item{Data}{dataframe}
 }
 \value{
 Count table
 }
 \description{
-This functions creates an Excel workbook and exports a oneway table
-of multiple variables with counts and percentages
+This functions returns a oneway table of a variable
+Must be used on a tbl_svy dataframe
 }

@@ -7,9 +7,9 @@
 put_label(data, var, data_label, label_from, label_to)
 }
 \arguments{
-\item{data}{dataframe}
+\item{data}{dataframe (optional, only if you want to rename a variable)}
 
-\item{var}{Variable to rename}
+\item{var}{Variable to get label frpù}
 
 \item{data_label}{dataframe with the list of variables in data (in one column), and their label (in another column)}
 
