@@ -16,7 +16,7 @@
 #' @export
 
 svy_ow_report <- function(data, workbook, worksheet, vars, rounding = 2,
-    data_label, label_from, label_to, open_on_finish = TRUE, 
+    data_label, label_from, label_to, open_on_finish = TRUE,
     overwrite_file = TRUE, lang="en", filename) {
 
     # SETUP & STYLES
@@ -49,16 +49,16 @@ svy_ow_report <- function(data, workbook, worksheet, vars, rounding = 2,
 
     # Build header
     table_header <- data %>%
-        svy_ow(!!sym(var), hide_prct_char = TRUE, lang=lang) %>%
+        svy_ow(var = !!sym(vars[1]), hide_prct_char = TRUE, lang=lang) %>%
         slice(0)
 
     ## Write header
     writeData(wb = wb, sheet = worksheet, x = table_header,
-        startRow = row_counter, 
+        startRow = row_counter,
     )
     ## Remove variable name in header
     writeData(wb = wb, sheet = worksheet, x = " ", startRow = row_counter)
-    
+
     ## Header borders
     addStyle(wb, worksheet, cols = 1:length(table_header),
         rows = row_counter, style = hs1, stack = TRUE)
@@ -72,7 +72,7 @@ svy_ow_report <- function(data, workbook, worksheet, vars, rounding = 2,
 
         # Create table
         table <- data %>%
-            svy_ow(!!sym(var), hide_prct_char = TRUE, lang=lang)
+            svy_ow(var = !!sym(var), hide_prct_char = TRUE, lang=lang)
 
         # Table
         ## Write variable name
