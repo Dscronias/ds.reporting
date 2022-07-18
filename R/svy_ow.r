@@ -1,9 +1,9 @@
 #' Oneway report of multiple categorical variables to Excel
 #'
-#' This functions creates an Excel workbook and exports a oneway table
-#' of multiple variables with counts and percentages
+#' This functions returns a oneway table of a variable
+#' Must be used on a tbl_svy dataframe
 #'
-#' @param Data dataframe
+#' @param data Dataframe to use
 #' @param var Variable to use
 #' @param rounding number of digits for rounding (int)
 #' @param hide_prct_char hides the "%" characted in the percentages column
