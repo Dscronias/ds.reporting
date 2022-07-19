@@ -49,13 +49,13 @@ svy_ow <- function(data, var, rounding_n = 0, rounding_prct = 2, hide_prct_char 
     # percentage >= [threshold]
     if (cond_prct) {
         n_cond <- table %>%
-            filter(!!sym(prct) >= min_cond_prct) %>%
+            filter(as.double(!!sym(prct)) >= min_cond_prct) %>%
             pull(N)
 
         table <- table %>%
             mutate(
                 {{prct_cond}} := case_when(
-                    !!sym(prct) < 2 ~ NaN,
+                    as.double(!!sym(prct)) < 2 ~ NaN,
                     TRUE ~ (N/sum(n_cond))
                 )
             ) %>%
