@@ -56,10 +56,18 @@ svy_ow <- function(data, var, rounding_n = 0, rounding_prct = 2, hide_prct_char 
             mutate(
                 {{prct_cond}} := case_when(
                     !!sym(prct) < 2 ~ NaN,
-                    TRUE ~ N/sum(n_cond) * 100 %>% round(rounding_n)
+                    TRUE ~ (N/sum(n_cond))
                 )
-            )
+            ) %>%
+            adorn_pct_formatting(rounding_prct, , TRUE, {{prct_cond}}) %>%
+            {
+            if (hide_prct_char)
+                mutate(
+                    .,
+                    {{prct_cond}} := str_remove(.data[[prct_cond]], "%")
+                )
+            else .
+        }
     }
-
     return(table)
 }
