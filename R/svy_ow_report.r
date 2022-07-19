@@ -7,7 +7,10 @@
 #' @param workbook name of the workbook (string)
 #' @param worksheet name of the worksheet (string)
 #' @param vars Variables to report (string)
-#' @param rounding number of digits for rounding (int)
+#' @param rounding_n number of digits for rounding Ns (int)
+#' @param rounding number of digits for rounding percentages (int)
+#' @param cond_prct create a new percentage column conditionally, with % computed conditionally on a threshold (bool)
+#' @param min_cond_prct Threshold to compute the new %s (int)
 #' @param open_on_finish open excel file on finish (bool)
 #' @param overwrite_file Overwrite existing file (bool)
 #' @param lang Language of header (one of "en", "fr" or "math")
@@ -15,7 +18,9 @@
 #' @return Excel file with oneway table
 #' @export
 
-svy_ow_report <- function(data, workbook, worksheet, vars, rounding = 2,
+svy_ow_report <- function(data, workbook, worksheet, vars, 
+    rounding_n = 0, rounding = 2,
+    cond_prct = FALSE, min_cond_prct = 5,
     data_label, label_from, label_to, open_on_finish = TRUE,
     overwrite_file = TRUE, lang="en", filename) {
 
@@ -49,7 +54,7 @@ svy_ow_report <- function(data, workbook, worksheet, vars, rounding = 2,
 
     # Build header
     table_header <- data %>%
-        svy_ow(var = !!sym(vars[1]), hide_prct_char = TRUE, lang=lang) %>%
+        svy_ow(var = !!sym(vars[1]), hide_prct_char = TRUE, cond_prct, min_cond_prct, lang=lang) %>%
         slice(0)
 
     ## Write header
@@ -72,13 +77,27 @@ svy_ow_report <- function(data, workbook, worksheet, vars, rounding = 2,
 
         # Create table
         table <- data %>%
-            svy_ow(var = !!sym(var), hide_prct_char = TRUE, lang=lang)
+            svy_ow(var = !!sym(var),
+                rounding_n,
+                rounding,
+                hide_prct_char,
+                cond_prct,
+                min_cond_prct,
+                hide_prct_char = TRUE,
+                lang=lang
+            )
 
         # Table
         ## Write variable name
         ## Get variable label, if we have this information
         if (get_var_label) {
-            var_label <- put_label(data = NULL, var = !!sym(var), data_label = data_label, label_from = {{label_from}}, label_to = {{label_to}})
+            var_label <- put_label(
+                data = NULL,
+                var = !!sym(var),
+                data_label = data_label,
+                label_from = {{label_from}},
+                label_to = {{label_to}}
+            )
         } else {
             var_label <- var
         }
