@@ -8,11 +8,14 @@
 #' @param rounding_prct number of digits for rounding Ns (int)
 #' @param rounding_prct number of digits for rounding percentages (int)
 #' @param hide_prct_char hides the "%" characted in the percentages column
+#' @param cond_prct create a new percentage column conditionally, with % computed conditionally on a threshold (bool)
+#' @param min_cond_prct Threshold to compute the new %s (int)
+#' @param cond_excluded_labels Restrict the exclusion of %s calculations to specific value labels (list)
 #' @param lang changes the name of the percentage column (depending on your language). Three values : "en" (default), "fr", or "math"
 #' @return Count table
 #' @export
 
-svy_ow <- function(data, var, rounding_n = 0, rounding_prct = 2, hide_prct_char = TRUE, cond_prct = FALSE, min_cond_prct = 5, lang="en") {
+svy_ow <- function(data, var, rounding_n = 0, rounding_prct = 2, hide_prct_char = TRUE, cond_prct = FALSE, min_cond_prct = 5, cond_excluded_labels = NULL, lang="en") {
     # Select header name
     prct <- switch(
         lang,
@@ -49,14 +52,20 @@ svy_ow <- function(data, var, rounding_n = 0, rounding_prct = 2, hide_prct_char 
     # percentage >= [threshold]
     if (cond_prct) {
         n_cond <- table %>%
-            filter(as.double(!!sym(prct)) >= min_cond_prct) %>%
+            filter(
+                !({{var}} %in% cond_excluded_labels & 
+                as.double(!!sym(prct)) < 2)
+            ) %>%
             pull(N)
 
         table <- table %>%
             mutate(
                 {{prct_cond}} := case_when(
-                    as.double(!!sym(prct)) < 2 ~ NaN,
-                    TRUE ~ (N/sum(n_cond))
+                    !(
+                        {{var}} %in% cond_excluded_labels & 
+                        as.double(!!sym(prct)) < 2
+                    ) ~ (N/sum(n_cond)),
+                    TRUE ~ NaN
                 )
             ) %>%
             adorn_pct_formatting(rounding_prct, , TRUE, {{prct_cond}}) %>%

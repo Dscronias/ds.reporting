@@ -21,6 +21,7 @@
 svy_ow_report <- function(data, workbook, worksheet, vars, 
     rounding_n = 0, rounding_prct = 2,
     cond_prct = FALSE, min_cond_prct = 5,
+    cond_excluded_labels = NULL,
     data_label, label_from, label_to, open_on_finish = TRUE,
     overwrite_file = TRUE, lang="en", filename) {
 
@@ -82,6 +83,7 @@ svy_ow_report <- function(data, workbook, worksheet, vars,
                 rounding_prct = rounding_prct,
                 cond_prct = cond_prct,
                 min_cond_prct = min_cond_prct,
+                cond_excluded_labels = cond_excluded_labels,
                 hide_prct_char = TRUE,
                 lang=lang
             )
