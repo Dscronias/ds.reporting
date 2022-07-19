@@ -54,7 +54,7 @@ svy_ow_report <- function(data, workbook, worksheet, vars,
 
     # Build header
     table_header <- data %>%
-        svy_ow(var = !!sym(vars[1]), hide_prct_char = TRUE, cond_prct, min_cond_prct, lang=lang) %>%
+        svy_ow(var = !!sym(vars[1]), hide_prct_char = TRUE, cond_prct = cond_prct, min_cond_prct = min_cond_prct, lang=lang) %>%
         slice(0)
 
     ## Write header
