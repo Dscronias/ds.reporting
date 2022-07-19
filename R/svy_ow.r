@@ -12,13 +12,19 @@
 #' @return Count table
 #' @export
 
-svy_ow <- function(data, var, rounding_n = 0, rounding_prct = 2, hide_prct_char = TRUE, lang="en") {
+svy_ow <- function(data, var, rounding_n = 0, rounding_prct = 2, hide_prct_char = TRUE, cond_prct = FALSE, min_cond_prct = 5, lang="en") {
     # Select header name
     prct <- switch(
         lang,
         "en" = "Percentage",
         "fr" = "Pourcentage",
         "math" = "%"
+    )
+    prct_cond <- switch(
+        lang,
+        "en" = glue("Percentage (>= {min_cond_prct}%)"),
+        "fr" = glue("Pourcentage (>= {min_cond_prct}%)"),
+        "math" = glue("% (>= {min_cond_prct}%)")
     )
 
     table <- data %>%
@@ -38,6 +44,22 @@ svy_ow <- function(data, var, rounding_n = 0, rounding_prct = 2, hide_prct_char 
             else .
         } %>%
         rename(N = n)
+
+    # New column with percentages computed only from 
+    # percentage >= [threshold]
+    if (cond_prct) {
+        n_cond <- table %>%
+            filter(!!sym(prct) >= min_cond_prct) %>%
+            pull(N)
+
+        table <- table %>%
+            mutate(
+                {{prct_cond}} := case_when(
+                    !!sym(prct) < 2 ~ NaN,
+                    TRUE ~ N/sum(n_cond) * 100 %>% round(rounding_n)
+                )
+            )
+    }
 
     return(table)
 }

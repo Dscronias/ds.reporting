@@ -63,7 +63,7 @@ svy_ow_report <- function(data, workbook, worksheet, vars, rounding = 2,
     addStyle(wb, worksheet, cols = 1:length(table_header),
         rows = row_counter, style = hs1, stack = TRUE)
     ## Header right align
-    addStyle(wb, worksheet, cols = 1:4,
+    addStyle(wb, worksheet, cols = 1:length(table_header),
         rows = row_counter, style = r_align, stack = TRUE)
     row_counter <- row_counter + 1
     ###########################################################################
@@ -85,14 +85,14 @@ svy_ow_report <- function(data, workbook, worksheet, vars, rounding = 2,
         writeData(wb = wb, sheet = worksheet, x = var_label %>% as_character(),
             startRow = row_counter
         )
-        mergeCells(wb, worksheet, cols = 1:3, rows = row_counter)
+        mergeCells(wb, worksheet, cols = 1:length(table_header), rows = row_counter)
         row_counter <- row_counter + 1
         ## Write content
         writeData(wb, worksheet, table, startRow = row_counter,
             colNames = FALSE
         )
         ## Right align results
-        addStyle(wb, worksheet, cols = 2:4,
+        addStyle(wb, worksheet, cols = 2:length(table_header),
             rows = row_counter:(row_counter + nrow(table) - 1),
             style = r_align, stack = TRUE, gridExpand = TRUE)
         ## Indent rowvar categories
