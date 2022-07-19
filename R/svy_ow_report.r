@@ -19,7 +19,7 @@
 #' @export
 
 svy_ow_report <- function(data, workbook, worksheet, vars, 
-    rounding_n = 0, rounding = 2,
+    rounding_n = 0, rounding_prct = 2,
     cond_prct = FALSE, min_cond_prct = 5,
     data_label, label_from, label_to, open_on_finish = TRUE,
     overwrite_file = TRUE, lang="en", filename) {
@@ -54,7 +54,7 @@ svy_ow_report <- function(data, workbook, worksheet, vars,
 
     # Build header
     table_header <- data %>%
-        svy_ow(var = !!sym(vars[1]), hide_prct_char = TRUE, cond_prct = cond_prct, min_cond_prct = min_cond_prct, lang=lang) %>%
+        svy_ow(var = !!sym(vars[1]), cond_prct = cond_prct, min_cond_prct = min_cond_prct, lang=lang) %>%
         slice(0)
 
     ## Write header
@@ -78,11 +78,10 @@ svy_ow_report <- function(data, workbook, worksheet, vars,
         # Create table
         table <- data %>%
             svy_ow(var = !!sym(var),
-                rounding_n,
-                rounding,
-                hide_prct_char,
-                cond_prct,
-                min_cond_prct,
+                rounding_n = rounding_n,
+                rounding_prct = rounding_prct,
+                cond_prct = cond_prct,
+                min_cond_prct = min_cond_prct,
                 hide_prct_char = TRUE,
                 lang=lang
             )
