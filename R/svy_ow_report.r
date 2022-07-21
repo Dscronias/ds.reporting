@@ -8,7 +8,8 @@
 #' @param worksheet name of the worksheet (string)
 #' @param vars Variables to report (string)
 #' @param rounding_n number of digits for rounding Ns (int)
-#' @param rounding number of digits for rounding percentages (int)
+#' @param rounding_prct number of digits for rounding percentages (int)
+#' @param no_na_prct Removes NAs from %ages calculations
 #' @param cond_prct create a new percentage column conditionally, with % computed conditionally on a threshold (bool)
 #' @param min_cond_prct Threshold to compute the new %s (int)
 #' @param open_on_finish open excel file on finish (bool)
@@ -18,32 +19,37 @@
 #' @return Excel file with oneway table
 #' @export
 
-svy_ow_report <- function(data, workbook, worksheet, vars, 
-    rounding_n = 0, rounding_prct = 2,
-    cond_prct = FALSE, min_cond_prct = 5,
-    cond_excluded_labels = NULL,
-    data_label, label_from, label_to, open_on_finish = TRUE,
-    overwrite_file = TRUE, lang="en", filename) {
+svy_ow_report <- function(data, workbook, worksheet, vars, rounding_n = 0, rounding_prct = 2,
+    no_na_prct = TRUE, cond_prct = FALSE, min_cond_prct = 0.05, cond_excluded_labels = NULL,
+    data_label, label_from, label_to, open_on_finish = TRUE, overwrite_file = TRUE, lang = "en", 
+    filename) {
 
-    # SETUP & STYLES
+    # Setup and styles
     wb <- createWorkbook(workbook)
     addWorksheet(wb, worksheet)
 
     hs1 <- createStyle(
-        border = c("Top", "Bottom")
+        border = c("Top", "Bottom"),
+        valign = "center"
     )
     bs1 <- createStyle(
-        border = "Bottom"
+        border = "Bottom",
+        valign = "center"
     )
     r_align <- createStyle(
-        halign = "right"
+        halign = "right",
+        valign = "center"
+    )
+    v_align <- createStyle(
+        valign = "center"
     )
     indent_style <- createStyle(
-        indent = 1
+        indent = 1,
+        valign = "center"
     )
 
     # Get var label
-    if (!missing(data_label) & !missing(label_from) & !missing(label_to)) {
+    if (!missing(data_label) && !missing(label_from) && !missing(label_to)) {
         get_var_label <- TRUE
     }
 
@@ -55,7 +61,7 @@ svy_ow_report <- function(data, workbook, worksheet, vars,
 
     # Build header
     table_header <- data %>%
-        svy_ow(var = !!sym(vars[1]), cond_prct = cond_prct, min_cond_prct = min_cond_prct, lang=lang) %>%
+        svy_ow(var = !!sym(vars[1]), cond_prct = cond_prct, min_cond_prct = min_cond_prct, lang = lang) %>%
         slice(0)
 
     ## Write header
@@ -81,11 +87,12 @@ svy_ow_report <- function(data, workbook, worksheet, vars,
             svy_ow(var = !!sym(var),
                 rounding_n = rounding_n,
                 rounding_prct = rounding_prct,
+                no_na_prct = no_na_prct,
                 cond_prct = cond_prct,
                 min_cond_prct = min_cond_prct,
                 cond_excluded_labels = cond_excluded_labels,
                 hide_prct_char = TRUE,
-                lang=lang
+                lang = lang
             )
 
         # Table
@@ -102,9 +109,13 @@ svy_ow_report <- function(data, workbook, worksheet, vars,
         } else {
             var_label <- var
         }
-        writeData(wb = wb, sheet = worksheet, x = var_label %>% as_character(),
+        ## Put variable label (or name)
+        writeData(wb = wb, sheet = worksheet, x = var_label %>% as.character(),
             startRow = row_counter
         )
+        addStyle(wb, worksheet, cols = 1:length(table_header), 
+            rows = row_counter, style = v_align, stack = TRUE,
+            gridExpand = TRUE)
         mergeCells(wb, worksheet, cols = 1:length(table_header), rows = row_counter)
         row_counter <- row_counter + 1
         ## Write content
@@ -128,7 +139,7 @@ svy_ow_report <- function(data, workbook, worksheet, vars,
 
     # Border to bottom of table
     addStyle(wb, worksheet, cols = 1:length(table_header),
-        rows = row_counter-1, style = bs1, stack = TRUE)
+        rows = row_counter - 1, style = bs1, stack = TRUE)
 
     ###########################################################################
     # WRITE TABLE
