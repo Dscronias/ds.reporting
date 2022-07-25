@@ -9,7 +9,12 @@ svy_ow_report(
   workbook,
   worksheet,
   vars,
-  rounding = 2,
+  rounding_n = 0,
+  rounding_prct = 2,
+  no_na_prct = TRUE,
+  cond_prct = FALSE,
+  min_cond_prct = 0.05,
+  cond_excluded_labels = NULL,
   data_label,
   label_from,
   label_to,
@@ -26,7 +31,15 @@ svy_ow_report(
 
 \item{vars}{Variables to report (string)}
 
-\item{rounding}{number of digits for rounding (int)}
+\item{rounding_n}{number of digits for rounding Ns (int)}
+
+\item{rounding_prct}{number of digits for rounding percentages (int)}
+
+\item{no_na_prct}{Removes NAs from \%ages calculations}
+
+\item{cond_prct}{create a new percentage column conditionally, with \% computed conditionally on a threshold (bool)}
+
+\item{min_cond_prct}{Threshold to compute the new \%s (int)}
 
 \item{open_on_finish}{open excel file on finish (bool)}
 

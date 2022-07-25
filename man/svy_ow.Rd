@@ -4,16 +4,35 @@
 \alias{svy_ow}
 \title{Oneway report of multiple categorical variables to Excel}
 \usage{
-svy_ow(data, var, rounding = 2, hide_prct_char = TRUE, lang = "en")
+svy_ow(
+  data,
+  var,
+  rounding_n = 0,
+  rounding_prct = 2,
+  hide_prct_char = TRUE,
+  no_na_prct = TRUE,
+  cond_prct = FALSE,
+  min_cond_prct = 0.05,
+  cond_excluded_labels = NULL,
+  lang = "en"
+)
 }
 \arguments{
 \item{data}{Dataframe to use}
 
 \item{var}{Variable to use}
 
-\item{rounding}{number of digits for rounding (int)}
+\item{rounding_prct}{number of digits for rounding percentages (int)}
 
 \item{hide_prct_char}{hides the "\%" characted in the percentages column}
+
+\item{no_na_prct}{Removes NAs from \%ages calculations}
+
+\item{cond_prct}{create a new percentage column on some specific, with \% computed conditionally on a threshold (bool)}
+
+\item{min_cond_prct}{Threshold to compute the new \%s (int)}
+
+\item{cond_excluded_labels}{Restrict the exclusion of \%s calculations to specific value labels (list)}
 
 \item{lang}{changes the name of the percentage column (depending on your language). Three values : "en" (default), "fr", or "math"}
 }
