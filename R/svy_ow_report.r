@@ -24,7 +24,7 @@
 #' @return Excel file with oneway table
 #' @export
 
-svy_ow_report <- function(data, workbook, worksheet, vars, rounding_n = 0, rounding_prct = 2,
+svy_ow_report <- function(data, workbook, new_wb = FALSE, worksheet, vars, rounding_n = 0, rounding_prct = 2,
     no_na_prct = TRUE, cond_prct = FALSE, min_cond_prct = 0.05, cond_excluded_labels = NULL,
     data_label, label_from, label_to, open_on_finish = TRUE, overwrite_file = TRUE, lang = "en", 
     filename) {

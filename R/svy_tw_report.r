@@ -26,6 +26,7 @@
 svy_tw_report <- function(
     data,
     workbook,
+    new_wb = TRUE,
     worksheet,
     colvar,
     rowvars,
