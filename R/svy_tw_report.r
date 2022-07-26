@@ -5,6 +5,7 @@
 #'
 #' @param data Dataframe to use
 #' @param workbook name of the workbook (string)
+#' @param new_wb create new workbook (or open filename)
 #' @param worksheet name of the worksheet (string)
 #' @param colvar Variable to use as the column variable
 #' @param rowvars Variables to use as row variables
@@ -44,7 +45,11 @@ svy_tw_report <- function(
 ) {
     ###########################################################################
     # Setup and styles
-    wb <- createWorkbook(workbook)
+    if (new_wb) {
+        wb <- createWorkbook(workbook)
+    } else {
+        wb <- loadWorkbook(filename)
+    }
     addWorksheet(wb, worksheet)
 
     hs1 <- createStyle(

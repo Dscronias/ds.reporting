@@ -5,6 +5,7 @@
 #'
 #' @param Data dataframe
 #' @param workbook name of the workbook (string)
+#' @param new_wb create new workbook (or open filename)
 #' @param worksheet name of the worksheet (string)
 #' @param vars Variables to report (string)
 #' @param rounding_n number of digits for rounding Ns (int)
@@ -29,7 +30,11 @@ svy_ow_report <- function(data, workbook, worksheet, vars, rounding_n = 0, round
     filename) {
 
     # Setup and styles
-    wb <- createWorkbook(workbook)
+    if (new_wb) {
+        wb <- createWorkbook(workbook)
+    } else {
+        wb <- loadWorkbook(filename)
+    }
     addWorksheet(wb, worksheet)
 
     hs1 <- createStyle(

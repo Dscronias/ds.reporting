@@ -18,7 +18,7 @@
 
 svy_ow <- function(data, var, rounding_n = 0, rounding_prct = 2, hide_prct_char = TRUE, 
 no_na_prct = TRUE, cond_prct = FALSE, min_cond_prct = 0.05, cond_excluded_labels = NULL, lang = "en") {
-    
+
     # Select header and NAs labels
     prct <- switch(
         lang,
