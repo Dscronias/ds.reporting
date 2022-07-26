@@ -41,6 +41,14 @@ svy_ow_report(
 
 \item{min_cond_prct}{Threshold to compute the new \%s (int)}
 
+\item{cond_excluded_labels}{Value labels to be excluded in the calculation of the new \%s, if < min_cond_prct (all if NULL)}
+
+\item{data_label}{Dataframe of value labels from which to retrieve variable labels (optionnal)}
+
+\item{label_from}{Column (in data_label) of variable names}
+
+\item{label_to}{Column (in data_label) of variable labels}
+
 \item{open_on_finish}{open excel file on finish (bool)}
 
 \item{overwrite_file}{Overwrite existing file (bool)}

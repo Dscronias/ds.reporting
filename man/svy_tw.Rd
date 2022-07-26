@@ -9,6 +9,7 @@ svy_tw(
   colvar,
   rowvar,
   type_prct = "col",
+  row_total = FALSE,
   rounding_n = 0,
   rounding_prct = 2,
   hide_prct_char = TRUE,
@@ -23,6 +24,8 @@ svy_tw(
 \item{rowvar}{Variable to use as the row variable}
 
 \item{type_prct}{Type of percentage shown (one of "col", "row" or "cell")}
+
+\item{row_total}{Add total column for row variable}
 
 \item{rounding_prct}{number of digits for rounding percentages (int)}
 
