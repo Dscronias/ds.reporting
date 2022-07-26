@@ -12,6 +12,10 @@
 #' @param no_na_prct Removes NAs from %ages calculations
 #' @param cond_prct create a new percentage column conditionally, with % computed conditionally on a threshold (bool)
 #' @param min_cond_prct Threshold to compute the new %s (int)
+#' @param cond_excluded_labels Value labels to be excluded in the calculation of the new %s, if < min_cond_prct (all if NULL)
+#' @param data_label Dataframe of value labels from which to retrieve variable labels (optionnal)
+#' @param label_from Column (in data_label) of variable names
+#' @param label_to Column (in data_label) of variable labels
 #' @param open_on_finish open excel file on finish (bool)
 #' @param overwrite_file Overwrite existing file (bool)
 #' @param lang Language of header (one of "en", "fr" or "math")

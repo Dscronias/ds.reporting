@@ -7,6 +7,7 @@
 #' @param colvar Variable to use as the column variable
 #' @param rowvar Variable to use as the row variable
 #' @param type_prct Type of percentage shown (one of "col", "row" or "cell")
+#' @param row_total Add total column for row variable
 #' @param rounding_prct number of digits for rounding Ns (int)
 #' @param rounding_prct number of digits for rounding percentages (int)
 #' @param hide_prct_char hides the "%" characted in the percentages column
@@ -15,10 +16,11 @@
 #' @export
 
 svy_tw <- function(
-    data, 
+    data,
     colvar,
     rowvar,
     type_prct = "col",
+    row_total = FALSE,
     rounding_n = 0,
     rounding_prct = 2,
     hide_prct_char = TRUE,
@@ -91,6 +93,35 @@ svy_tw <- function(
             relocate(
                 !!sym(percentage_cat),
                 .after = !!sym(n_cat)
+            )
+    }
+
+    # Add total column
+    if (row_total) {
+        total_prct <- paste0(prct, "_Total")
+
+        table_row_total <- data %>%
+            group_by({{rowvar}}) %>%
+            summarise(
+                N_Total = survey_total(),
+                {{total_prct}} := survey_prop()
+            ) %>%
+            select(-N_Total_se, -glue("{total_prct}_se")) %>%
+            adorn_pct_formatting(rounding_prct, , TRUE, {{total_prct}}) %>%
+            {
+            if (hide_prct_char)
+                mutate(
+                    .,
+                    {{total_prct}} := str_remove(.data[[total_prct]], "%")
+                )
+            else .
+            } %>%
+            mutate(N_Total = round(N_Total, rounding_n))
+
+        table <- table %>%
+            left_join(
+                table_row_total,
+                by = englue("{{rowvar}}")
             )
     }
 
