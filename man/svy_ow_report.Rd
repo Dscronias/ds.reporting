@@ -7,6 +7,7 @@
 svy_ow_report(
   data,
   workbook,
+  new_wb = TRUE,
   worksheet,
   vars,
   rounding_n = 0,
@@ -26,6 +27,8 @@ svy_ow_report(
 }
 \arguments{
 \item{workbook}{name of the workbook (string)}
+
+\item{new_wb}{create new workbook (or open filename)}
 
 \item{worksheet}{name of the worksheet (string)}
 

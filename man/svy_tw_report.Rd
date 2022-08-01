@@ -7,6 +7,7 @@
 svy_tw_report(
   data,
   workbook,
+  new_wb = TRUE,
   worksheet,
   colvar,
   rowvars,
@@ -29,6 +30,8 @@ svy_tw_report(
 \item{data}{Dataframe to use}
 
 \item{workbook}{name of the workbook (string)}
+
+\item{new_wb}{create new workbook (or open filename)}
 
 \item{worksheet}{name of the worksheet (string)}
 
