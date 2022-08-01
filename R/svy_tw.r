@@ -78,7 +78,10 @@ svy_tw <- function(
             else .
         } %>%
         mutate(N = round(N, rounding_n)) %>%
-        select(-N_se, -glue("{prct}_se")) %>%
+        select(-N_se) %>%
+        {if (type_prct %in% c("col", "row"))
+            select(., -glue("{prct}_se"))
+        else .} %>%
         pivot_wider(
             names_from = {{colvar}},
             values_from = c("N", all_of(prct))

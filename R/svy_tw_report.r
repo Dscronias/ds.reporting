@@ -83,7 +83,7 @@ svy_tw_report <- function(
     type_prct_label <-
         if (lang %in% c("en", "math") && type_prct == "row") "row" else
         if (lang %in% c("en", "math") && type_prct == "col") "column" else
-        if (lang %in% c("en", "math") && type_prct == "cell") "row" else
+        if (lang %in% c("en", "math") && type_prct == "cell") "cell" else
         if (lang == "fr" && type_prct == "row") "ligne" else
         if (lang == "fr" && type_prct == "col") "colonne" else
         if (lang == "fr" && type_prct == "cell") "cellule" else
@@ -169,7 +169,7 @@ svy_tw_report <- function(
     ### N & %
     writeData(wb, worksheet, x = (rep(c("N", glue("% ({type_prct_label})")), length(colvar_cats) + row_total * 1)) %>% t(), startCol = 2, startRow = row_index, colNames = FALSE)
     addStyle(wb, worksheet, cols = 1:table_col_end, rows = row_index, style = bs1, stack = TRUE)
-    addStyle(wb, worksheet, cols = 1:table_col_end, rows = row_index, style = r_halign, stack = TRUE)
+    addStyle(wb, worksheet, cols = 1:table_col_end, rows = row_index, style = c_halign, stack = TRUE)
     row_index  <- row_index + 1
 
     ###########################################################################
