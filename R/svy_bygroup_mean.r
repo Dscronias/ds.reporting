@@ -31,7 +31,7 @@ svy_bygroup_mean <- function(data, quant_var, by_var, rounding_mean = 2, roundin
             Mean = survey_mean({{quant_var}}, vartype = c("se", "ci"))
         ) %>%
         mutate(
-            Proportion = (Proportion * 100) %>% round(., rounding_prct) %>% format(., rounding_prct) %>% paste(., "%", sep = ""),
+            Proportion = (Proportion * 100) %>% round(., rounding_prct) %>% format(., rounding_prct),
             `CI 95%` = glue("[{round(Mean_low, {rounding_ci}) %>% format(nsmall = {rounding_ci})}; {round(Mean_upp, {rounding_ci}) %>% format(nsmall = {rounding_ci})}]"),
             Mean = Mean %>% round(rounding_mean) %>% format(rounding_mean),
             Mean_se = Mean_se %>% round(rounding_se) %>% format(rounding_se)
