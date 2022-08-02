@@ -8,10 +8,13 @@ svy_bygroup_mean(
   data,
   quant_var,
   by_var,
+  rounding_mean = 2,
+  rounding_se = 2,
   rounding_prct = 2,
   rounding_ci = 2,
   show_se = FALSE,
-  show_ci = TRUE
+  show_ci = TRUE,
+  lang = "en"
 )
 }
 \arguments{
@@ -21,18 +24,24 @@ svy_bygroup_mean(
 
 \item{by_var}{Variable to use for group_by}
 
+\item{rounding_mean}{number of digits for rounding mean (int)}
+
+\item{rounding_se}{number of digits for rounding mean standard error (int)}
+
 \item{rounding_prct}{number of digits for rounding percentages (int)}
 
-\item{rounding_ci}{hides the "\%" characted in the percentages column}
+\item{rounding_ci}{number of digits for rounding confidence intervals (int)}
 
 \item{show_se}{shows standard error of the mean}
 
 \item{show_ci}{shows the confidence interval of the mean}
+
+\item{lang}{changes the name of the percentage column (depending on your language). Three values : "en" (default), "fr", or "math"}
 }
 \value{
 Table with means, SE, CI and p-values
 }
 \description{
-This functions returns a oneway table of a variable
+This functions returns a by-group summary of means for a continuous variable (with t-test of difference in means using a regression)
 Must be used on a tbl_svy dataframe
 }
