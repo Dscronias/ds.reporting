@@ -23,7 +23,7 @@ svy_bygroup_mean <- function(data, quant_var, by_var, rounding_mean = 2, roundin
         "fr" = "(ref.)",
         "math" = "(ref.)"
     )
-    
+
     table <- data %>%
         group_by({{by_var}}) %>%
         summarise(
