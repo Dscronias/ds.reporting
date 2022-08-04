@@ -10,7 +10,7 @@
 #' @return Formatted regression table to use with regression_report
 #' @export
 
-regression_tidy_results <- function(data, exponentiate = FALSE, robust = FALSE, robust_method = "HC0") {
+regression_tidy_results <- function(data, exponentiate = FALSE, robust = FALSE, robust_method = "HC3") {
     
     data %>%
         # Tidy results + keep original results object
