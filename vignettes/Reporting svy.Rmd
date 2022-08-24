@@ -1,0 +1,99 @@
+---
+title: "Reporting"
+author: "Anne-Fleur Jacquemot"
+date: "2022-08-24"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+library(ds.reporting)
+library(tidyverse)
+library(NHANES)
+library(srvyr)
+library(broom)
+library(janitor)
+library(openxlsx)
+library(rlang)
+library(glue)
+library(assertthat)
+```
+
+```{r}
+data(NHANESraw)
+
+# Label dataframe
+df_label <- tribble(
+  ~Variable, ~Label,
+  "Age", "Âge du répondant",
+  "Gender", "Genre du répondant",
+  "Race1", "Origine ethnique du répondant",
+  "Education", "Niveau d'instruction",
+  "MaritalStatus", "Statut marital",
+  "Work", "Situation d'emploi",
+  "BMI_WHO", "Indice de masse corporelle"
+)
+
+# Df as survey
+svy_NHANESraw <- NHANESraw %>%
+  as_survey_design(weights = WTINT2YR)
+
+# Single oneway table
+svy_NHANESraw %>%
+  svy_ow(Gender)
+
+svy_NHANESraw %>%
+  svy_ow_report(
+    data = .,
+    workbook = "OW 1",
+    worksheet = "OW 1",
+    vars = c("Gender", "Race1", "Education", "MaritalStatus", "Work", "BMI_WHO"),
+    lang = "fr",
+    cond_prct = TRUE,
+    open_on_finish = FALSE,
+    data_label = df_label,
+    label_from = Variable,
+    label_to = Label,
+    filename = file.path("Reporting", "Oneway table 1.xlsx"),
+    new_wb = TRUE,
+  )
+
+svy_NHANESraw %>%
+  svy_tw_report(
+    data = .,
+    workbook = "TW 1",
+    worksheet = "TW 1",
+    colvar = Gender,
+    rowvars = c("Race1", "Education", "MaritalStatus", "Work", "BMI_WHO"),
+    type_prct = "col",
+    lang = "fr",
+    open_on_finish = FALSE,
+    # data_label = df_label,
+    # label_from = Variable,
+    # label_to = Label,
+    filename = file.path("Reporting", "Twoway table 1.xlsx")
+  )
+
+svy_NHANESraw %>%
+  svy_bygroup_mean(
+    quant_var = Age,
+    by_var = MaritalStatus
+  )
+
+svy_NHANESraw %>%
+  svy_bygroup_mean_report(
+    workbook = "Quant 1",
+    worksheet = "Quant 1",
+    quant_var = Age,
+    by_vars = c("Race1", "Education", "MaritalStatus", "Work", "BMI_WHO"),
+    lang = "fr",
+    open_on_finish = FALSE,
+    data_label = df_label,
+    label_from = Variable,
+    label_to = Label,
+    show_se = TRUE,
+    show_ci = TRUE,
+    filename = file.path("Reporting", "Quant table 1.xlsx")
+  )
+```
+
+
