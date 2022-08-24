@@ -1,4 +1,4 @@
-#' Twoway report of multiple categorical variables to Excel
+#' Twoway table, with survey design
 #'
 #' This functions returns a twoway table of one column variable and one row variable
 #' Must be used on a tbl_svy dataframe

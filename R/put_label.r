@@ -17,7 +17,7 @@ put_label <- function(data, var, data_label, label_from, label_to) {
         pull({{label_to}})
 
     # Check that var exists in data_label$label_from
-    assert_that(length(var_label) > 0, msg = glue("{englue('{{var}}')} does not exist in {englue('{{label_from}}')} (label_from) column"))
+    assertthat::assert_that(length(var_label) > 0, msg = glue("{englue('{{var}}')} does not exist in {englue('{{label_from}}')} (label_from) column"))
 
     # You can set data to NULL, if needed, to just retrieve the label
     if (!missing(data) & !is.null(data)) {

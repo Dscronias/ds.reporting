@@ -8,8 +8,7 @@ Description: "Export oneway and twoway tables from R to Excel, with
     Chi-squared tests."
 License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
     license
-Imports:
-    assertthat,
+Depends:
     broom,
     broom.helpers,
     glue,
@@ -18,6 +17,8 @@ Imports:
     rlang,
     tidyverse,
     srvyr
+Imports:
+    assertthat
 Suggests: 
     farff,
     knitr,

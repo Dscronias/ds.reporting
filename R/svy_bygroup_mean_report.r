@@ -1,4 +1,4 @@
-#' Report of a quantitative variable by multiple groups, with t-tests
+#' Report of a quantitative variable by multiple groups, with t-tests. With survey design.
 #'
 #' This functions returns a by-group summary of means for a continuous variable (with t-test of difference in means using a regression)
 #' Must be used on a tbl_svy dataframe

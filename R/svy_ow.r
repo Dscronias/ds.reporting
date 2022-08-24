@@ -1,4 +1,4 @@
-#' Oneway report of multiple categorical variables to Excel
+#' Oneway table of a variable, with survey design
 #'
 #' This functions returns a oneway table of a variable
 #' Must be used on a tbl_svy dataframe

@@ -47,7 +47,7 @@ describe_df <- function(data) {
         as.vector()
     ) %>%
     mutate(
-        count = glue('{count} ({round(count/nrow(df)*100, 2)}%)'),
-        missing = glue('{missing} ({round(missing/nrow(df)*100, 2)}%)')
+        count = glue("{count} ({round(count/nrow(df)*100, 2)}%)"),
+        missing = glue("{missing} ({round(missing/nrow(df)*100, 2)}%)")
     )
 }
