@@ -60,6 +60,8 @@ svy_ow_report <- function(data, workbook, new_wb = TRUE, worksheet, vars, roundi
     # Get var label
     if (!missing(data_label) && !missing(label_from) && !missing(label_to)) {
         get_var_label <- TRUE
+    } else {
+        get_var_label <- FALSE
     }
 
     # Counters
