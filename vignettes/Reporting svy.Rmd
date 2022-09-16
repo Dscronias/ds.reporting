@@ -1,6 +1,6 @@
 ---
 title: "Reporting"
-author: "Anne-Fleur Jacquemot"
+author: "Dimitri Scronias"
 date: "2022-08-24"
 output: html_document
 ---

@@ -17,14 +17,19 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(farff)
 library(tidyverse)
-library(openxlsx)
-library(ds.reporting)
-library(janitor)
-library(glue)
 df <- readARFF(
   path = system.file(
     "extdata", "dataset_42_soybean.arff", package = "ds.reporting"
   )
+)
+
+# Label dataframe
+df_label <- tribble(
+  ~Variable, ~Label,
+  "precip", "Precipitation",
+  "temp", "Temperature",
+  "hail", "Hail",
+  "crop-hist", "Crop history",
 )
 ```
 
@@ -37,35 +42,42 @@ describe_df(df)
 # Oneway table
 
 ```{r}
-ow_report(
-    data = df,
-    workbook = "Oneway",
-    worksheet = "Oneway",
-    vars = c("date", "plant-stand", "precip"),
-    rounding = 2,
-    total = FALSE,
-    filename = "Oneway example.xlsx"
-)
+
 ```
 
 # Twoway table
 
 ```{r}
-tw_report(
-    data = df %>% drop_na(`plant-stand`),
-    workbook = "Twoway",
-    worksheet = "Twoway",
-    colvar = "plant-stand",
-    rowvars = c("precip", "date", "germination", "severity"),
-    rounding = 2,
-    percentage_style = "row",
-    counts = FALSE,
-    separate_counts = FALSE,
-    total_col = TRUE,
-    pval_col = FALSE,
-    chi_cat_reject = TRUE,
-    chi_cat_reject_threshold = 0.06,
-    show_chi_table = TRUE,
-    filename = "Twoway example.xlsx"
+test <- df %>%
+  tw(
+    colvar = precip,
+    rowvars = c("temp", "hail", "crop-hist"),
+    missing = FALSE,
+    type_prct = "col",
+    chisq_n_thres = 5,
+    add_row_total = FALSE,
+    add_col_total = TRUE,
+    lang = "fr"
+  ) %>%
+  report(
+    workbook = "wb",
+    worksheet = "Tadada",
+    label_data = df_label,
+    label_from = Variable,
+    label_to = Label,
+    filename = "truc.xlsx"
+  )
+
+test %>% 
+  pull(tw_table)
+
+
+attributes(test)$report_type <- "NULL"
+
+test %>% left_join(
+  df_label,
+  by = c(var_row = Variable)
 )
+
+test %>% report(.)
 ```

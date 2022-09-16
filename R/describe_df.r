@@ -8,46 +8,46 @@
 #' @export
 
 describe_df <- function(data) {
-    bind_cols(
+    dplyr::bind_cols(
         variable = data %>% colnames(),
-        class = data %>% map_chr(~ class(.) %>% paste(collapse = "; ")),
+        class = data %>% purrr::map_chr(~ class(.) %>% paste(collapse = "; ")),
         count = data %>%
-            summarise(
-                across(
-                    everything(),
+            dplyr::summarise(
+                dplyr::across(
+                    dplyr::everything(),
                     ~sum(!is.na(.))
                 )
             ) %>%
             t() %>%
             as.vector(),
         missing = data %>%
-            summarise(
-                across(
-                    everything(),
+            dplyr::summarise(
+                dplyr::across(
+                    dplyr::everything(),
                     ~sum(is.na(.))
                 )
             ) %>%
             t() %>%
             as.vector(),
-        nlevels = data %>% summarise(
-            across(
-                everything(),
+        nlevels = data %>% dplyr::summarise(
+            dplyr::across(
+                dplyr::everything(),
                 ~levels(.) %>% length()
             )
         ) %>%
         t() %>%
         as.vector(),
-        levels = data %>% summarise(
-            across(
-                everything(),
+        levels = data %>% dplyr::summarise(
+            dplyr::across(
+                dplyr::everything(),
                 ~levels(.) %>% paste(collapse = "; ")
             )
         ) %>%
         t() %>%
         as.vector()
     ) %>%
-    mutate(
-        count = glue("{count} ({round(count/nrow(df)*100, 2)}%)"),
-        missing = glue("{missing} ({round(missing/nrow(df)*100, 2)}%)")
+    dplyr::mutate(
+        count = glue::glue("{count} ({round(count/nrow(df)*100, 2)}%)"),
+        missing = glue::glue("{missing} ({round(missing/nrow(df)*100, 2)}%)")
     )
 }
