@@ -2,7 +2,7 @@
 % Please edit documentation in R/svy_bygroup_mean.r
 \name{svy_bygroup_mean}
 \alias{svy_bygroup_mean}
-\title{Oneway report of multiple categorical variables to Excel}
+\title{By-group summary of means, with survey design}
 \usage{
 svy_bygroup_mean(
   data,

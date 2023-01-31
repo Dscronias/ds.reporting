@@ -8,7 +8,8 @@ regression_tidy_results(
   data,
   exponentiate = FALSE,
   robust = FALSE,
-  robust_method = "HC0"
+  robust_method = "HC3",
+  pval_stars = c(0.001, 0.01, 0.05)
 )
 }
 \arguments{

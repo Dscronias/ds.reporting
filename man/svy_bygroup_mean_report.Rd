@@ -2,7 +2,7 @@
 % Please edit documentation in R/svy_bygroup_mean_report.r
 \name{svy_bygroup_mean_report}
 \alias{svy_bygroup_mean_report}
-\title{Report of a quantitative variable by multiple groups, with t-tests}
+\title{Report of a quantitative variable by multiple groups, with t-tests. With survey design.}
 \usage{
 svy_bygroup_mean_report(
   data,

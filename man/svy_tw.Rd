@@ -2,7 +2,7 @@
 % Please edit documentation in R/svy_tw.r
 \name{svy_tw}
 \alias{svy_tw}
-\title{Twoway report of multiple categorical variables to Excel}
+\title{Twoway table, with survey design}
 \usage{
 svy_tw(
   data,

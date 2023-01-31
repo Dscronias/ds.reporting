@@ -2,32 +2,62 @@
 % Please edit documentation in R/ow_report.r
 \name{ow_report}
 \alias{ow_report}
-\title{Oneway report of multiple categorical variables to Excel}
+\title{Oneway report of multiple categorical variables to Excel, with survey design}
 \usage{
 ow_report(
   data,
   workbook,
+  new_wb = TRUE,
   worksheet,
   vars,
-  rounding = 2,
-  total = TRUE,
+  rounding_prct = 2,
+  no_na_prct = TRUE,
+  cond_prct = FALSE,
+  min_cond_prct = 0.05,
+  cond_excluded_labels = NULL,
+  data_label,
+  label_from,
+  label_to,
+  open_on_finish = TRUE,
+  overwrite_file = TRUE,
+  lang = "en",
   filename
 )
 }
 \arguments{
 \item{workbook}{name of the workbook (string)}
 
+\item{new_wb}{create new workbook (or open filename)}
+
 \item{worksheet}{name of the worksheet (string)}
 
 \item{vars}{Variables to report (string)}
 
-\item{rounding}{number of digits for rounding (int)}
+\item{rounding_prct}{number of digits for rounding percentages (int)}
 
-\item{filename}{Name of excel file to export to}
+\item{no_na_prct}{Removes NAs from \%ages calculations}
+
+\item{cond_prct}{create a new percentage column conditionally, with \% computed conditionally on a threshold (bool)}
+
+\item{min_cond_prct}{Threshold to compute the new \%s (int)}
+
+\item{cond_excluded_labels}{Value labels to be excluded in the calculation of the new \%s, if < min_cond_prct (all if NULL)}
+
+\item{data_label}{Dataframe of value labels from which to retrieve variable labels (optionnal)}
+
+\item{label_from}{Column (in data_label) of variable names}
+
+\item{label_to}{Column (in data_label) of variable labels}
+
+\item{open_on_finish}{open excel file on finish (bool)}
+
+\item{overwrite_file}{Overwrite existing file (bool)}
+
+\item{lang}{Language of header (one of "en", "fr" or "math")}
+
+\item{filename}{Name of excel file to export to (string)}
 
 \item{Data}{dataframe}
-
-\item{total_col}{add a total column (bool)}
 }
 \value{
 Excel file with oneway table
