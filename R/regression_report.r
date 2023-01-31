@@ -56,7 +56,7 @@ regression_report <- function(data, workbook, new_wb = TRUE, worksheet, model_la
     )
 
     # Various explanations in the footer
-    pval_starts <- attr(data, "pval_stars")
+    pval_stars <- attr(data, "pval_stars")
     footer_label <- switch(
         lang,
         "en" = glue::glue("***: p-value < {pval_stars[1]}; **: p-value < {pval_stars[2]}; *: p-value < {pval_starts[3]}. Estimates in bold are statistically significant (p-value < 0.05)."),
