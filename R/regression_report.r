@@ -61,7 +61,7 @@ regression_report <- function(data, workbook, new_wb = TRUE, worksheet, model_la
         lang,
         "en" = glue::glue("***: p-value < {pval_stars[1]}; **: p-value < {pval_stars[2]}; *: p-value < {pval_starts[3]}. Estimates in bold are statistically significant (p-value < 0.05)."),
         "fr" = glue::glue("***: p-value < {pval_stars[1]}; **: p-value < {pval_stars[2]}; *: p-value < {pval_starts[3]}. Les estimations en gras sont statistiquement significatives (p-value < 0.05)."),
-        "math" = glue::("***: p-value < {pval_stars[1]}; **: p-value < {pval_stars[2]}; *: p-value < {pval_starts[3]}. Estimates in bold are statistically significant (p-value < 0.05).")
+        "math" = glue::glue("***: p-value < {pval_stars[1]}; **: p-value < {pval_stars[2]}; *: p-value < {pval_starts[3]}. Estimates in bold are statistically significant (p-value < 0.05).")
     )
 
     # Get var label
