@@ -56,11 +56,12 @@ regression_report <- function(data, workbook, new_wb = TRUE, worksheet, model_la
     )
 
     # Various explanations in the footer
+    pval_starts <- attr(data, "pval_stars")
     footer_label <- switch(
         lang,
-        "en" = "***: p-value < 0.001; **: p-value < 0.01; *: p-value < 0.05. Estimates in bold are statistically significant (p-value < 0.05).",
-        "fr" = "***: p-value < 0.001; **: p-value < 0.01; *: p-value < 0.05. Les estimations en gras sont statistiquement significatives (p-value < 0.05).",
-        "math" = "***: p-value < 0.001; **: p-value < 0.01; *: p-value < 0.05. Estimates in bold are statistically significant (p-value < 0.05)."
+        "en" = glue::glue("***: p-value < {pval_stars[1]}; **: p-value < {pval_stars[2]}; *: p-value < {pval_starts[3]}. Estimates in bold are statistically significant (p-value < 0.05)."),
+        "fr" = glue::glue("***: p-value < {pval_stars[1]}; **: p-value < {pval_stars[2]}; *: p-value < {pval_starts[3]}. Les estimations en gras sont statistiquement significatives (p-value < 0.05)."),
+        "math" = glue::("***: p-value < {pval_stars[1]}; **: p-value < {pval_stars[2]}; *: p-value < {pval_starts[3]}. Estimates in bold are statistically significant (p-value < 0.05).")
     )
 
     # Get var label
@@ -212,7 +213,7 @@ regression_report <- function(data, workbook, new_wb = TRUE, worksheet, model_la
         pval_list <- table %>% pull(p.value)
         row_index_pval <- row_index
         for (el in pval_list) {
-            if (!is.na(el) & el < 0.05) {
+            if (!is.na(el) & el < pval_stars[3]) {
                 addStyle(
                     wb, worksheet, cols = 2:table_col_end,
                     rows = row_index_pval,

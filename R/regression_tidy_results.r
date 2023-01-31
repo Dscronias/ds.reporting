@@ -10,9 +10,9 @@
 #' @return Formatted regression table to use with regression_report
 #' @export
 
-regression_tidy_results <- function(data, exponentiate = FALSE, robust = FALSE, robust_method = "HC3") {
+regression_tidy_results <- function(data, exponentiate = FALSE, robust = FALSE, robust_method = "HC3", pval_stars = c(0.001, 0.01, 0.05)) {
     
-    data %>%
+    results <- data %>%
         # Tidy results + keep original results object
         tidy_and_attach(
             conf.int = TRUE,
@@ -74,10 +74,14 @@ regression_tidy_results <- function(data, exponentiate = FALSE, robust = FALSE, 
                 TRUE ~ estimate %>% round(2) %>% format(2)
             ),
             estimate = case_when(
-                p.value < 0.001 ~ paste(estimate, "***", sep = ""),
-                p.value < 0.01 ~ paste(estimate, "**", sep = ""),
-                p.value < 0.05 ~ paste(estimate, "*", sep = ""),
+                p.value < pval_stars[1] ~ paste(estimate, "***", sep = ""),
+                p.value < pval_stars[2] ~ paste(estimate, "**", sep = ""),
+                p.value < pval_stars[3] ~ paste(estimate, "*", sep = ""),
                 TRUE ~ estimate
             )
         )
+
+    attr(results, "pval_stars") <- pval_stars
+
+    return(results)
 }
