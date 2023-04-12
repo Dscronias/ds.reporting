@@ -47,7 +47,7 @@ svy_tw_report(
 
 \item{lang}{changes the name of the percentage column (depending on your language). Three values : "en" (default), "fr", or "math"}
 
-\item{data_label}{Dataframe of value labels from which to retrieve variable labels (optionnal)}
+\item{data_label}{Dataframe of value labels from which to retrieve variable labels (optional)}
 
 \item{label_from}{Column (in data_label) of variable names}
 

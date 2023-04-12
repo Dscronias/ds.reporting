@@ -1,3 +1,20 @@
+#' Export report (for tw tables only for now)
+#'
+#' @description
+#' This functions exports an excel file of a tw table
+#'
+#' @param data Dataframe to use
+#' @param workbook name of the workbook (string)
+#' @param worksheet name of the worksheet (string)
+#' @param label_data Dataframe of value labels from which to retrieve variable labels (optional)
+#' @param label_from Column (in data_label) of variable names
+#' @param label_to Column (in data_label) of variable labels
+#' @param open_on_finish open excel file on finish (bool)
+#' @param append_to_existing_file Append report ton an existing excel file
+#' @param filename Name of excel file to export to (string)
+#' @return An excel file + the original table
+#' @export
+
 report <- function(data, workbook, worksheet, label_data, label_from, label_to, open_on_finish = FALSE, append_to_existing_file = FALSE, filename) {
     # Report expects a tibble with a "report_type" attributes indicating the reporting function used to create the input data ("tw"...)
     # Throws an error if the report_type attribute is missing
@@ -100,7 +117,7 @@ report.tw <- function(data, workbook, worksheet, label_data, label_from, label_t
     openxlsx::writeData(wb, worksheet, x = label_colvar, startCol = 2, startRow = row_index)
     openxlsx::mergeCells(wb, worksheet, cols = 2:table_col_end, rows = row_index)
     ### Center align
-    openxlsx::addStyle(wb, worksheet, cols = 2:table_col_end, rows = row_index, style = align_horizontal_center, stack = TRUE) 
+    openxlsx::addStyle(wb, worksheet, cols = 2:table_col_end, rows = row_index, style = align_horizontal_center, stack = TRUE)
     openxlsx::addStyle(wb, worksheet, cols = 2:table_col_end, rows = row_index, style = align_vertical_center, stack = TRUE)
     ### Bottom border
     openxlsx::addStyle(wb, worksheet, cols = 2:table_col_end, rows = row_index, style = border_bottom, stack = TRUE)
@@ -147,12 +164,12 @@ report.tw <- function(data, workbook, worksheet, label_data, label_from, label_t
     ## Rowvars
     for (var in data %>% filter(var_row != "total") %>% dplyr::pull(var_row)) {
         data_current_row <- data %>% dplyr::filter(var_row == var)
-        
+
         ### Row variable label
         if (!missing(label_data) && !missing(label_from) && !missing(label_to)) {
             openxlsx::writeData(wb = wb, sheet = worksheet, x = data_current_row %>% dplyr::pull({{label_to}}), startRow = row_index)
         } else {
-            openxlsx::writeData(wb = wb, sheet = worksheet, x = data_current_row %>% dplyr::pull({{var_row}}), startRow = row_index)
+            openxlsx::writeData(wb = wb, sheet = worksheet, x = data_current_row %>% dplyr::pull(var_row), startRow = row_index)
         }
         openxlsx::mergeCells(wb, worksheet, cols = 1:table_col_end, rows = row_index)
         openxlsx::addStyle(wb, worksheet, cols = 1:table_col_end, rows = row_index, style = align_vertical_center, stack = TRUE)
@@ -186,7 +203,7 @@ report.tw <- function(data, workbook, worksheet, label_data, label_from, label_t
         ### Next variable
         row_index <- row_index + 1
     }
-    
+
     ###########################################################################
     # FOOTER
 
